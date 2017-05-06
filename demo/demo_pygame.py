@@ -32,13 +32,13 @@ import pygame
 import pygame.surfarray
 
 import pygame.transform
-import libardrone
+from libardrone import ardrone
 
 def main():
     pygame.init()
     W, H = 320, 240
     screen = pygame.display.set_mode((W, H))
-    drone = libardrone.ARDrone(True)
+    drone = ardrone.ARDrone(True)
     drone.reset()
     clock = pygame.time.Clock()
     running = True

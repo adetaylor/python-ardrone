@@ -1,6 +1,6 @@
-import paveparser
-import mock
 import os
+import mock
+from libardrone import paveparser
 
 
 def test_misalignment():
