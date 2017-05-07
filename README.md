@@ -22,7 +22,7 @@ At present this is in the format of a numpy array with dimensions (width, height
 >>>      # get image data as numpy array
 >>>      img = drone.get_image()
 >>>      # show image using opencv
->>>      cv2.imshow("image", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+>>>      cv2.imshow('image', cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 >>>      if cv2.waitKey(1) & 0xFF == ord('q'): # press 'q' to quit
 >>>          break
 ```

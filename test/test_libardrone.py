@@ -18,11 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 import unittest
-import libardrone
+from libardrone import at
 
 class LibardroneTestCase(unittest.TestCase):
     def test_f2i(self):
-        self.assertEqual(libardrone.at.f2i(-0.8,), -1085485875)
+        self.assertEqual(at.f2i(-0.8,), -1085485875)
 
 if __name__ == "__main__":
     unittest.main()
