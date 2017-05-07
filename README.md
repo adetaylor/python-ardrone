@@ -30,7 +30,7 @@ At present this is in the format of a numpy array with dimensions (width, height
 The drone's property `navdata` contains always the latest navdata.
 You can for example get the current battery charge from that:
 
-```
+```python
 >>> bat = drone.navdata.get(0, dict()).get('battery', 0)
 >>> print('Battery: %i%%' % bat)
 ```
@@ -43,12 +43,17 @@ and lets you remote-control the drone with the keyboard (you need pygame for it 
 
     RETURN      - takeoff
     SPACE       - land
-    BACKSPACE   - reset (from emergency)
-    a/d         - left/right
-    w/s         - forward/back
+    BACKSPACE   - reset (from emergency - DO NOT USE IN FLIGHT)
+    w           - forward
+    a           - left
+    s           - back
+    d           - right
+    LEFT/q      - turn left
+    RIGHT/e     - turn right
     1,2,...,0   - speed
     UP/DOWN     - altitude
-    LEFT/RIGHT  - turn left/right
+    r           - switch to front facing camera
+    f           - switch to downward facing camera
 
 Here is a [video] of the library in action:
 
