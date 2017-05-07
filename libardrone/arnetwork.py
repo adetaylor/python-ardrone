@@ -50,7 +50,7 @@ class ARDroneNetworkProcess(threading.Thread):
             from . import ar2video
             self.ar2video = ar2video.ARVideo2(self._drone, drone.debug)
         else:
-            import arvideo
+            from . import arvideo
 
     def run(self):
 
