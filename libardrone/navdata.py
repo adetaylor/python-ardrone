@@ -1,3 +1,5 @@
+import struct
+
 # 0: "Not defined"
 # 131072:  "Landed"
 # 393216:  "Taking-off-Floor"

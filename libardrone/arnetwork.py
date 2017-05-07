@@ -120,9 +120,9 @@ class ARDroneNetworkProcess(threading.Thread):
                             # we consumed every packet from the socket and
                             # continue with the last one
                             break
-                    navdata, has_information = navdata.decode_navdata(data)
+                    nav_data, has_information = navdata.decode_navdata(data)
                     if (has_information):
-                        self._drone.set_navdata(navdata)
+                        self._drone.set_navdata(nav_data)
                 elif i == self.com_pipe:
                     _ = self.com_pipe.recv()
                     self.stopping = True
