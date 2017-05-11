@@ -50,7 +50,7 @@ and lets you remote-control the drone with the keyboard (you need pygame for it 
     d           - right
     LEFT/q      - turn left
     RIGHT/e     - turn right
-    1,2,...,0   - speed
+    1,2,...,0   - speed ('1' slowest with speed 0.1, then adding 0.1 for every number until '0' for fastest with 1.0)
     UP/DOWN     - altitude
     r           - switch to front facing camera
     f           - switch to downward facing camera
