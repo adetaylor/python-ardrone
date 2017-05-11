@@ -1,7 +1,7 @@
-import paveparser
-import mock
-import h264decoder
 import os
+import mock
+from libardrone import paveparser
+from libardrone import h264decoder
 
 
 def test_h264_decoder():

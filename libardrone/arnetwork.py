@@ -26,7 +26,12 @@ import threading
 import select
 import socket
 import multiprocessing
-import libardrone
+
+from . import navdata
+
+ARDRONE_NAVDATA_PORT = 5554
+ARDRONE_VIDEO_PORT = 5555
+ARDRONE_CONTROL_PORT = 5559
 
 class ARDroneNetworkProcess(threading.Thread):
     """ARDrone Network Process.
@@ -42,10 +47,10 @@ class ARDroneNetworkProcess(threading.Thread):
         self.is_ar_drone_2 = is_ar_drone_2
         self.stopping = False
         if is_ar_drone_2:
-            import ar2video
-            self.ar2video = ar2video.ARVideo2(self._drone, libardrone.DEBUG)
+            from . import ar2video
+            self.ar2video = ar2video.ARVideo2(self._drone, drone.debug)
         else:
-            import arvideo
+            from . import arvideo
 
     def run(self):
 
@@ -53,21 +58,21 @@ class ARDroneNetworkProcess(threading.Thread):
             logging.warn('Connection to ardrone')
             if self.is_ar_drone_2:
                 video_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                video_socket.connect(('192.168.1.1', libardrone.ARDRONE_VIDEO_PORT))
+                video_socket.connect(('192.168.1.1', ARDRONE_VIDEO_PORT))
                 video_socket.setblocking(0)
             else:
                 video_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                 video_socket.setblocking(0)
-                video_socket.bind(('', libardrone.ARDRONE_VIDEO_PORT))
-                video_socket.sendto("\x01\x00\x00\x00", ('192.168.1.1', libardrone.ARDRONE_VIDEO_PORT))
+                video_socket.bind(('', ARDRONE_VIDEO_PORT))
+                video_socket.sendto("\x01\x00\x00\x00", ('192.168.1.1', ARDRONE_VIDEO_PORT))
 
             nav_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
             nav_socket.setblocking(0)
-            nav_socket.bind(('', libardrone.ARDRONE_NAVDATA_PORT))
-            nav_socket.sendto("\x01\x00\x00\x00", ('192.168.1.1', libardrone.ARDRONE_NAVDATA_PORT))
+            nav_socket.bind(('', ARDRONE_NAVDATA_PORT))
+            nav_socket.sendto("\x01\x00\x00\x00", ('192.168.1.1', ARDRONE_NAVDATA_PORT))
 
             control_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            control_socket.connect(('192.168.1.1', libardrone.ARDRONE_CONTROL_PORT))
+            control_socket.connect(('192.168.1.1', ARDRONE_CONTROL_PORT))
             control_socket.setblocking(0)
             logging.warn('Connection established')
             return video_socket, nav_socket, control_socket
@@ -115,9 +120,9 @@ class ARDroneNetworkProcess(threading.Thread):
                             # we consumed every packet from the socket and
                             # continue with the last one
                             break
-                    navdata, has_information = libardrone.decode_navdata(data)
+                    nav_data, has_information = navdata.decode_navdata(data)
                     if (has_information):
-                        self._drone.set_navdata(navdata)
+                        self._drone.set_navdata(nav_data)
                 elif i == self.com_pipe:
                     _ = self.com_pipe.recv()
                     self.stopping = True

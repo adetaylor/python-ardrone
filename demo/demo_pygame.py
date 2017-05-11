@@ -32,13 +32,13 @@ import pygame
 import pygame.surfarray
 
 import pygame.transform
-import libardrone
+from libardrone import ardrone
 
 def main():
     pygame.init()
     W, H = 320, 240
     screen = pygame.display.set_mode((W, H))
-    drone = libardrone.ARDrone(True)
+    drone = ardrone.ARDrone(True)
     drone.reset()
     clock = pygame.time.Clock()
     running = True
@@ -54,10 +54,8 @@ def main():
                     running = False
                 # takeoff / land
                 elif event.key == pygame.K_RETURN:
-                    print("return")
                     drone.takeoff()
                 elif event.key == pygame.K_SPACE:
-                    print("space")
                     drone.land()
                 # emergency
                 elif event.key == pygame.K_BACKSPACE:
@@ -78,9 +76,9 @@ def main():
                 elif event.key == pygame.K_DOWN:
                     drone.move_down()
                 # turn left / turn right
-                elif event.key == pygame.K_LEFT:
+                elif event.key in [pygame.K_LEFT, pygame.K_q]:
                     drone.turn_left()
-                elif event.key == pygame.K_RIGHT:
+                elif event.key in [pygame.K_RIGHT, pygame.K_e]:
                     drone.turn_right()
                 # speed
                 elif event.key == pygame.K_1:
@@ -103,11 +101,13 @@ def main():
                     drone.speed = 0.9
                 elif event.key == pygame.K_0:
                     drone.speed = 1.0
-
+                elif event.key == pygame.K_r:
+                    drone.set_camera_view(True)
+                elif event.key == pygame.K_f:
+                    drone.set_camera_view(False)
         try:
-            # print pygame.image
             pixelarray = drone.get_image()
-            if pixelarray != None:
+            if (not pixelarray is None) and pixelarray.any():
                 surface = pygame.surfarray.make_surface(pixelarray)
                 rotsurface = pygame.transform.rotate(surface, 270)
                 screen.blit(rotsurface, (0, 0))
@@ -117,6 +117,8 @@ def main():
             f = pygame.font.Font(None, 20)
             hud = f.render('Battery: %i%%' % bat, True, hud_color)
             screen.blit(hud, (10, 10))
+        except KeyboardInterrupt:
+            break
         except:
             pass
 
